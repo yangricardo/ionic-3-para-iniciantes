@@ -24,3 +24,4 @@ $ ionic cordova run ios
 
 Substitute ios for android if not on a Mac.
 
+https://www.udemy.com/ionic-3-para-iniciantes/learn/v4/overview
