@@ -1,32 +1,49 @@
+import { MovieProvider } from './../../providers/movie/movie';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the FeedPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
   selector: 'page-feed',
   templateUrl: 'feed.html',
+  providers:[
+    MovieProvider
+  ]
 })
 export class FeedPage {
 
-  public nomeUsuario:String = "Yang Ricardo";
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public objeto_feed = {
+    titulo: "Yang Ricardo",
+    data: "November 3, 2017",
+    descricao: "Que viagem... O.O",
+    qtd_likes: 12,
+    qtd_comments: 4,
+    time_comment: "11h ago"
   }
 
-  public soma2Numeros(num1:number,num2:number):void{
-     alert(5+10+num1+num2)
+  public lista_filmes = new Array<any>();
+
+  public image_path = "https://image.tmdb.org/t/p/w500/";
+
+  public nomeUsuario:String = "Yang Ricardo";
+
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private movieProvider: MovieProvider
+            ) {
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad FeedPage');
-    //this.soma2Numeros(1,2);
+    this.movieProvider.getLatestMovies().subscribe(
+      data => {
+        const response = (data as any);
+        const objeto_retorno = JSON.parse(response._body);
+        this.lista_filmes = objeto_retorno.results;
+        console.log(objeto_retorno);
+      }, error => {
+        console.log(error);
+      }
+    )
   }
 
 }
